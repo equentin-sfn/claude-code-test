@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 
 const thinkingPhrases = [
   'Browsing the shelves...',
@@ -8,18 +8,62 @@ const thinkingPhrases = [
   'Let me think...',
   'Flicking through the pages...',
   'One moment...',
+  'Consulting the stacks...',
+  'Hmm, let me see...',
+  'Searching the collection...',
+  'Just a moment...',
+  'Having a rummage...',
+  'Let me find something good...',
+  'Checking our recommendations...',
+  'Thumbing through the index...',
+  'Looking into that...',
+  'Give me a second...',
+  'Diving into the archives...',
+  'Pondering...',
+  'Scouring the shelves...',
+  'On the hunt...',
+  'Digging around...',
 ]
 
+// Track used phrases across component instances
+let usedPhrases: Set<number> = new Set()
+
+function getRandomUnusedPhrase(): { phrase: string; index: number } {
+  // Reset if all phrases have been used
+  if (usedPhrases.size >= thinkingPhrases.length) {
+    usedPhrases = new Set()
+  }
+
+  // Get available indices
+  const availableIndices: number[] = []
+  for (let i = 0; i < thinkingPhrases.length; i++) {
+    if (!usedPhrases.has(i)) {
+      availableIndices.push(i)
+    }
+  }
+
+  // Pick a random available index
+  const randomIndex = availableIndices[Math.floor(Math.random() * availableIndices.length)]
+  usedPhrases.add(randomIndex)
+
+  return { phrase: thinkingPhrases[randomIndex], index: randomIndex }
+}
+
 export default function LoadingIndicator() {
-  const [phraseIndex, setPhraseIndex] = useState(0)
+  const [phrase, setPhrase] = useState('')
+  const lastIndexRef = useRef<number>(-1)
 
   useEffect(() => {
-    // Start with a random phrase
-    setPhraseIndex(Math.floor(Math.random() * thinkingPhrases.length))
+    // Get initial phrase
+    const initial = getRandomUnusedPhrase()
+    setPhrase(initial.phrase)
+    lastIndexRef.current = initial.index
 
     // Rotate through phrases every 2.5 seconds
     const interval = setInterval(() => {
-      setPhraseIndex((prev) => (prev + 1) % thinkingPhrases.length)
+      const next = getRandomUnusedPhrase()
+      setPhrase(next.phrase)
+      lastIndexRef.current = next.index
     }, 2500)
 
     return () => clearInterval(interval)
@@ -50,7 +94,7 @@ export default function LoadingIndicator() {
           </div>
 
           <span className="text-sm transition-opacity duration-300">
-            {thinkingPhrases[phraseIndex]}
+            {phrase}
           </span>
         </div>
       </div>
