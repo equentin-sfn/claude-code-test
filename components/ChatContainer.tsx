@@ -1,6 +1,6 @@
 'use client'
 
-import { useRef, useEffect } from 'react'
+import { useRef, useEffect, useState } from 'react'
 import Image from 'next/image'
 import ChatMessage from './ChatMessage'
 import LoadingIndicator from './LoadingIndicator'
@@ -16,8 +16,28 @@ interface ChatContainerProps {
   isLoading?: boolean
 }
 
+function getTimeBasedGreeting(): string {
+  const hour = new Date().getHours()
+
+  if (hour >= 5 && hour < 12) {
+    return 'Good morning. What are you in the mood to listen to today?'
+  } else if (hour >= 12 && hour < 17) {
+    return 'Good afternoon. Looking for your next listen?'
+  } else if (hour >= 17 && hour < 21) {
+    return 'Good evening. Something cosy for tonight?'
+  } else {
+    return "Burning the midnight oil? We've got just the thing."
+  }
+}
+
 export default function ChatContainer({ messages, isLoading }: ChatContainerProps) {
   const bottomRef = useRef<HTMLDivElement>(null)
+  const [greeting, setGreeting] = useState<string>('')
+
+  // Set greeting on mount (client-side only to avoid hydration mismatch)
+  useEffect(() => {
+    setGreeting(getTimeBasedGreeting())
+  }, [])
 
   // Auto-scroll to bottom when new messages arrive
   useEffect(() => {
@@ -38,7 +58,7 @@ export default function ChatContainer({ messages, isLoading }: ChatContainerProp
             />
           </div>
           <p className="text-black text-lg md:text-xl mb-2 font-serif">
-            Welcome to the Spiracle Librarian
+            {greeting || 'Welcome to the Spiracle Librarian'}
           </p>
           <p className="text-warm-grey/70 text-sm md:text-base leading-relaxed">
             Ask me anything about audiobooks, authors, or the Spiracle platform.

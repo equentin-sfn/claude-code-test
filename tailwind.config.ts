@@ -35,6 +35,7 @@ const config: Config = {
         'fade-in': 'fadeIn 0.3s ease-out forwards',
         'slide-up': 'slideUp 0.3s ease-out forwards',
         'shake': 'shake 0.5s ease-in-out',
+        'page-flip': 'pageFlip 1.2s ease-in-out infinite',
       },
       keyframes: {
         fadeIn: {
@@ -49,6 +50,10 @@ const config: Config = {
           '0%, 100%': { transform: 'translateX(0)' },
           '20%, 60%': { transform: 'translateX(-5px)' },
           '40%, 80%': { transform: 'translateX(5px)' },
+        },
+        pageFlip: {
+          '0%, 100%': { transform: 'rotateY(0deg)', opacity: '0.4' },
+          '50%': { transform: 'rotateY(-30deg)', opacity: '0.7' },
         },
       },
     },
