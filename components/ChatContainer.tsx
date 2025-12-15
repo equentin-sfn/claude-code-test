@@ -14,6 +14,7 @@ export interface Message {
 interface ChatContainerProps {
   messages: Message[]
   isLoading?: boolean
+  onSuggestionClick?: (suggestion: string) => void
 }
 
 function getTimeBasedGreeting(): string {
@@ -30,7 +31,7 @@ function getTimeBasedGreeting(): string {
   }
 }
 
-export default function ChatContainer({ messages, isLoading }: ChatContainerProps) {
+export default function ChatContainer({ messages, isLoading, onSuggestionClick }: ChatContainerProps) {
   const bottomRef = useRef<HTMLDivElement>(null)
   const [greeting, setGreeting] = useState<string>('')
 
@@ -65,15 +66,27 @@ export default function ChatContainer({ messages, isLoading }: ChatContainerProp
             I&apos;m here to help you discover your next great listen.
           </p>
           <div className="mt-6 flex flex-wrap justify-center gap-2">
-            <span className="text-xs px-3 py-1.5 bg-cream-dark text-warm-grey rounded-full border border-warm-grey/10">
+            <button
+              onClick={() => onSuggestionClick?.('Recommend a book')}
+              className="text-xs px-3 py-1.5 bg-cream-dark text-warm-grey rounded-full border border-warm-grey/10
+                         hover:bg-warm-cream hover:border-warm-grey/20 transition-colors cursor-pointer"
+            >
               Recommend a book
-            </span>
-            <span className="text-xs px-3 py-1.5 bg-cream-dark text-warm-grey rounded-full border border-warm-grey/10">
+            </button>
+            <button
+              onClick={() => onSuggestionClick?.("What's new?")}
+              className="text-xs px-3 py-1.5 bg-cream-dark text-warm-grey rounded-full border border-warm-grey/10
+                         hover:bg-warm-cream hover:border-warm-grey/20 transition-colors cursor-pointer"
+            >
               What&apos;s new?
-            </span>
-            <span className="text-xs px-3 py-1.5 bg-cream-dark text-warm-grey rounded-full border border-warm-grey/10">
-              Tell me about Spiracle
-            </span>
+            </button>
+            <button
+              onClick={() => onSuggestionClick?.('Any staff picks this week?')}
+              className="text-xs px-3 py-1.5 bg-cream-dark text-warm-grey rounded-full border border-warm-grey/10
+                         hover:bg-warm-cream hover:border-warm-grey/20 transition-colors cursor-pointer"
+            >
+              Any staff picks this week?
+            </button>
           </div>
         </div>
       </div>

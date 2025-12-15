@@ -56,11 +56,16 @@ export default function ChatPage() {
   const [messages, setMessages] = useState<Message[]>([])
   const [isLoading, setIsLoading] = useState(false)
   const [sessionId, setSessionId] = useState<string>('')
+  const [inputValue, setInputValue] = useState('')
 
   // Load messages and session from localStorage on mount
   useEffect(() => {
     setMessages(getStoredMessages())
     setSessionId(getSessionId())
+  }, [])
+
+  const handleSuggestionClick = useCallback((suggestion: string) => {
+    setInputValue(suggestion)
   }, [])
 
   // Save messages to localStorage whenever they change
@@ -128,11 +133,16 @@ export default function ChatPage() {
     <div className="flex flex-col h-[100dvh] bg-cream">
       <Header onNewChat={handleNewChat} />
 
-      <ChatContainer messages={messages} isLoading={isLoading} />
+      <ChatContainer messages={messages} isLoading={isLoading} onSuggestionClick={handleSuggestionClick} />
 
       <div className="border-t border-warm-grey/20 bg-cream/80 backdrop-blur-sm p-4 md:p-6 pb-safe">
         <div className="max-w-3xl mx-auto">
-          <ChatInput onSend={handleSendMessage} disabled={isLoading} />
+          <ChatInput
+            onSend={handleSendMessage}
+            disabled={isLoading}
+            value={inputValue}
+            onChange={setInputValue}
+          />
         </div>
       </div>
     </div>

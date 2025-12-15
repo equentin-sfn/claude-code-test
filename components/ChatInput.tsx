@@ -1,14 +1,15 @@
 'use client'
 
-import { useState, useRef, useEffect } from 'react'
+import { useRef, useEffect } from 'react'
 
 interface ChatInputProps {
   onSend: (message: string) => void
   disabled?: boolean
+  value: string
+  onChange: (value: string) => void
 }
 
-export default function ChatInput({ onSend, disabled }: ChatInputProps) {
-  const [message, setMessage] = useState('')
+export default function ChatInput({ onSend, disabled, value, onChange }: ChatInputProps) {
   const textareaRef = useRef<HTMLTextAreaElement>(null)
 
   // Auto-resize textarea
@@ -18,7 +19,7 @@ export default function ChatInput({ onSend, disabled }: ChatInputProps) {
       textarea.style.height = 'auto'
       textarea.style.height = `${Math.min(textarea.scrollHeight, 150)}px`
     }
-  }, [message])
+  }, [value])
 
   // Focus input when not disabled
   useEffect(() => {
@@ -29,9 +30,9 @@ export default function ChatInput({ onSend, disabled }: ChatInputProps) {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    if (message.trim() && !disabled) {
-      onSend(message.trim())
-      setMessage('')
+    if (value.trim() && !disabled) {
+      onSend(value.trim())
+      onChange('')
     }
   }
 
@@ -46,8 +47,8 @@ export default function ChatInput({ onSend, disabled }: ChatInputProps) {
     <form onSubmit={handleSubmit} className="flex gap-3 items-end">
       <textarea
         ref={textareaRef}
-        value={message}
-        onChange={(e) => setMessage(e.target.value)}
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
         onKeyDown={handleKeyDown}
         placeholder="Ask the Librarian..."
         disabled={disabled}
@@ -60,7 +61,7 @@ export default function ChatInput({ onSend, disabled }: ChatInputProps) {
       />
       <button
         type="submit"
-        disabled={disabled || !message.trim()}
+        disabled={disabled || !value.trim()}
         aria-label="Send message"
         className="px-5 py-3 bg-black text-cream font-medium rounded-xl
                    hover:bg-black/80 active:scale-95 transition-all duration-200
