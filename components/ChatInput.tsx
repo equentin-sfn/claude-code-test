@@ -64,10 +64,10 @@ export default function ChatInput({ onSend, disabled }: ChatInputProps) {
         type="submit"
         disabled={disabled || !message.trim()}
         aria-label="Send message"
-        className="p-2.5 md:px-5 md:py-3 bg-black text-cream font-medium rounded-xl
+        className="px-3 py-2.5 md:px-5 md:py-3 bg-black text-cream font-medium rounded-xl
                    hover:bg-black/80 active:scale-95 transition-all duration-200
                    disabled:opacity-50 disabled:cursor-not-allowed disabled:active:scale-100
-                   flex-shrink-0"
+                   flex-shrink-0 self-end"
       >
         <span className="hidden md:inline">Send</span>
         <svg className="w-5 h-5 md:hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
