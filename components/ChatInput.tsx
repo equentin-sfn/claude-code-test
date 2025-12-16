@@ -63,14 +63,13 @@ export default function ChatInput({ onSend, disabled, value, onChange }: ChatInp
         type="submit"
         disabled={disabled || !value.trim()}
         aria-label="Send message"
-        className="px-5 py-3 bg-black text-cream font-medium rounded-xl
+        className="p-3 bg-black text-cream font-medium rounded-xl
                    hover:bg-black/80 active:scale-95 transition-all duration-200
                    disabled:opacity-50 disabled:cursor-not-allowed disabled:active:scale-100
                    flex-shrink-0"
       >
-        <span className="hidden md:inline">Send</span>
-        {/* Feather quill icon for mobile - literary theme */}
-        <svg className="w-5 h-5 md:hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round">
+        {/* Feather quill icon - literary theme */}
+        <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round">
           <path d="M20.24 12.24a6 6 0 0 0-8.49-8.49L5 10.5V19h8.5z" />
           <line x1="16" y1="8" x2="2" y2="22" />
           <line x1="17.5" y1="15" x2="9" y2="15" />
