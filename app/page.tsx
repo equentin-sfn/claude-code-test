@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Image from 'next/image'
+import Footer from '@/components/Footer'
 
 export default function LoginPage() {
   const [password, setPassword] = useState('')
@@ -105,6 +106,10 @@ export default function LoginPage() {
         <p className="text-center text-warm-grey/60 text-xs md:text-sm mt-8">
           The Spiracle Librarian
         </p>
+      </div>
+
+      <div className="absolute bottom-4 left-0 right-0">
+        <Footer />
       </div>
     </main>
   )

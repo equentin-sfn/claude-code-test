@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback } from 'react'
 import Header from '@/components/Header'
 import ChatContainer, { Message } from '@/components/ChatContainer'
 import ChatInput from '@/components/ChatInput'
+import Footer from '@/components/Footer'
 
 const STORAGE_KEY = 'spiracle-chat'
 const SESSION_KEY = 'spiracle-session-id'
@@ -143,6 +144,7 @@ export default function ChatPage() {
             value={inputValue}
             onChange={setInputValue}
           />
+          <Footer />
         </div>
       </div>
     </div>
